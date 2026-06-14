@@ -25,7 +25,10 @@ queryClient.getQueryCache().subscribe(event => {
   if (event.type === "updated" && event.action.type === "error") {
     const error = event.query.state.error;
     redirectToLoginIfUnauthorized(error);
-    console.error("[API Query Error]", error);
+    // Only log real errors, not undefined-data warnings
+    if (error && !(error instanceof Error && error.message?.includes('data is undefined'))) {
+      console.error("[API Query Error]", error);
+    }
   }
 });
 
