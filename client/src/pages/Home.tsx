@@ -3,7 +3,6 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { getLoginUrl } from "@/const";
 import { useLocation } from "wouter";
 import { Camera, Search, Barcode, ChefHat, ArrowRight, Sparkles } from "lucide-react";
 import MacroRing, { MacroBar } from "@/components/MacroRing";
@@ -90,7 +89,7 @@ export default function Home() {
 
           <Button
             className="w-full max-w-xs h-12 text-base font-semibold rounded-xl shadow-lg shadow-primary/25"
-            onClick={() => (window.location.href = getLoginUrl())}
+            onClick={() => navigate("/login")}
           >
             Inizia gratis
             <ArrowRight size={18} className="ml-2" />

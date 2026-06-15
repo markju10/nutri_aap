@@ -1,4 +1,4 @@
-import { and, desc, eq, sql as sqlExpr } from "drizzle-orm";
+import { eq, and, gte, lte, sql as sqlExpr, desc } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { InsertUser, mealLogs, savedRecipes, userProfiles, users } from "../drizzle/schema";
 import type { InsertMealLog, InsertSavedRecipe, InsertUserProfile } from "../drizzle/schema";
@@ -28,7 +28,7 @@ export async function upsertUser(user: InsertUser): Promise<void> {
   const values: InsertUser = { openId: user.openId };
   const updateSet: Record<string, unknown> = {};
 
-  const textFields = ["name", "email", "loginMethod"] as const;
+  const textFields = ["name", "email", "loginMethod", "passwordHash"] as const;
   for (const field of textFields) {
     const value = user[field];
     if (value === undefined) continue;
@@ -53,6 +53,13 @@ export async function upsertUser(user: InsertUser): Promise<void> {
   if (Object.keys(updateSet).length === 0) updateSet.lastSignedIn = new Date();
 
   await db.insert(users).values(values).onDuplicateKeyUpdate({ set: updateSet });
+}
+
+export async function getUserByEmail(email: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(users).where(eq(users.email, email)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
 }
 
 export async function getUserByOpenId(openId: string) {

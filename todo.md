@@ -56,3 +56,14 @@
 - [x] Test vitest backend (9 test passati)
 - [x] TypeScript senza errori
 - [x] Checkpoint finale
+
+## Railway Deploy
+- [ ] Analisi dipendenze Manus-specifiche (LLM, storage, auth, notification)
+- [ ] Sostituzione invokeLLM con OpenAI SDK standard
+- [ ] Sostituzione storagePut con Cloudinary o S3 standard
+- [ ] Sostituzione OAuth Manus con sistema JWT + email/password
+- [ ] Configurazione nixpacks.toml per Railway
+- [ ] Script build e start per produzione
+- [ ] File .env.example con tutte le variabili necessarie
+- [ ] Istruzioni deploy Railway complete
+- [ ] Pacchetto ZIP pronto per il deploy

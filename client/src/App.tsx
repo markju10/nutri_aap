@@ -1,7 +1,7 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
+import { Route, Switch, useLocation } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import BottomNav from "./components/BottomNav";
@@ -11,11 +11,16 @@ import Scan from "./pages/Scan";
 import History from "./pages/History";
 import Profile from "./pages/Profile";
 import Recipes from "./pages/Recipes";
+import Login from "./pages/Login";
 
 function Router() {
+  const [location] = useLocation();
+  const showNav = location !== "/login";
+
   return (
     <>
       <Switch>
+        <Route path="/login" component={Login} />
         <Route path="/" component={Home} />
         <Route path="/diary" component={Diary} />
         <Route path="/scan" component={Scan} />
@@ -25,7 +30,7 @@ function Router() {
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
       </Switch>
-      <BottomNav />
+      {showNav && <BottomNav />}
     </>
   );
 }
